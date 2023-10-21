@@ -49,7 +49,51 @@ public class Tabuleiro {
         return true;
     }
 
-    public int getPosicaoComputador(){
+    public int getPosicaoComputador(ETipoPosicao computador) {
+         ETipoPosicao oponente=computador.equals(ETipoPosicao.O)?ETipoPosicao.X:ETipoPosicao.O;
+
+        // tenta ganhar
+        for (int i = 1; i <= 9; i++) {
+            int[] pos = getPosicao(i);
+            int linha = pos[0];
+            int coluna = pos[1];
+
+            if (tabuleiro[linha][coluna] == ETipoPosicao.VAZIO) {
+                // Simule uma jogada
+                tabuleiro[linha][coluna] = computador;
+
+                if (isVencedor(computador)) {
+                    // desfaz simulacao e retorna posicao
+                    tabuleiro[linha][coluna] = ETipoPosicao.VAZIO;
+                    return i;
+                }
+
+                tabuleiro[linha][coluna] = ETipoPosicao.VAZIO; // Desfaça a simulação
+            }
+        }
+
+        // tenta bloquer o oponente de ganhar
+        for (int i = 1; i <= 9; i++) {
+            int[] pos = getPosicao(i);
+            int linha = pos[0];
+            int coluna = pos[1];
+
+            if (tabuleiro[linha][coluna] == ETipoPosicao.VAZIO) {
+                // Simule uma jogada para verificar se o jogador ganharia
+                tabuleiro[linha][coluna] = oponente;
+
+                if (isVencedor(oponente)) {
+                    // desfaz simulacao e retorna posicao
+                    tabuleiro[linha][coluna] = computador;
+                    return i;
+                }
+                // Desfaça a simulação
+                tabuleiro[linha][coluna] = ETipoPosicao.VAZIO;
+            }
+        }
+
+
+        //gera aleatorio
         int posicaoComputador = (int) (Math.random() * 9);
         int linha = getPosicao(posicaoComputador)[0];
         int coluna = getPosicao(posicaoComputador)[1];
@@ -58,9 +102,9 @@ public class Tabuleiro {
             linha = getPosicao(posicaoComputador)[0];
             coluna = getPosicao(posicaoComputador)[1];
         }
-        return posicaoComputador;
 
-    }
+    return posicaoComputador;
+}
     public boolean isVencedor(ETipoPosicao tipoPosicao) {
         for (int linha = 0; linha < 3; linha++) {
             if (this.tabuleiro[linha][0] == tipoPosicao &&

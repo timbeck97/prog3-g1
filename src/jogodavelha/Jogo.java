@@ -29,7 +29,7 @@ public void jogar(){
         Jogador jogador= getJogadorDaVez();
         int posicao;
         if(jogador.isComputador()){
-            posicao=tabuleiro.getPosicaoComputador();
+            posicao=tabuleiro.getPosicaoComputador(jogador.getTipoPosicao());
             System.out.println(getNomeJogadorDaVez()+" selecionou a posição: "+posicao);
         }else{
             System.out.println(getNomeJogadorDaVez()+" digite a posição: ");
