@@ -1,51 +1,50 @@
 package jogodavelha;
 
+import java.util.Scanner;
+
 /**
  *
  * @author Tim
  */
-public class Jogador {
+public class Jogador implements IJogador {
     private String nome;
     private ETipoPosicao tipoPosicao;
 
-    private boolean isComputador;
 
-    public Jogador(String nome, ETipoPosicao tipoPosicao, boolean isComputador) {
+    private Scanner scanner;
+
+    public Jogador(String nome, ETipoPosicao tipoPosicao ) {
         this.nome = nome;
         this.tipoPosicao = tipoPosicao;
-        this.isComputador = isComputador;
+        this.scanner = new Scanner(System.in);
     }
 
+    @Override
+    public int getMovimento(Tabuleiro tabuleiro) {
+        int posicao;
+        System.out.println(nome+" digite a posição: ");
+        posicao = this.scanner.nextInt();
+        while(!tabuleiro.isPosicaoValida(posicao)){
+            System.out.println("Posição inválida, digite novamente: ");
+            posicao = this.scanner.nextInt();
+        }
+        return posicao;
+    }
+
+    @Override
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    @Override
+    public boolean isComputador() {
+        return false;
     }
 
+    @Override
     public ETipoPosicao getTipoPosicao() {
         return tipoPosicao;
     }
 
-    public void setTipoPosicao(ETipoPosicao tipoPosicao) {
-        this.tipoPosicao = tipoPosicao;
-    }
 
-    public boolean isComputador() {
-        return isComputador;
-    }
-
-    public void setComputador(boolean computador) {
-        isComputador = computador;
-    }
-
-    @Override
-    public String toString() {
-        return "Jogador{" +
-                "nome='" + nome + '\'' +
-                ", tipoPosicao=" + tipoPosicao +
-                ", isComputador=" + isComputador +
-                '}';
-    }
 }

@@ -8,8 +8,8 @@ import java.util.Scanner;
  */
 public class Jogo {
 
-    private Jogador jogador1;
-    private Jogador jogador2;
+    private IJogador jogador1;
+    private IJogador jogador2;
     private Tabuleiro tabuleiro;
     private Scanner scanner;
 
@@ -23,22 +23,10 @@ public class Jogo {
         tabuleiro.printTabuleiro();
         this.jogar();
     }
-
 public void jogar(){
     while(true){
-        Jogador jogador= getJogadorDaVez();
-        int posicao;
-        if(jogador.isComputador()){
-            posicao=tabuleiro.getPosicaoComputador(jogador.getTipoPosicao());
-            System.out.println(getNomeJogadorDaVez()+" selecionou a posição: "+posicao);
-        }else{
-            System.out.println(getNomeJogadorDaVez()+" digite a posição: ");
-            posicao = this.scanner.nextInt();
-            while(!tabuleiro.isPosicaoValida(posicao)){
-                System.out.println("Posição inválida, digite novamente: ");
-                posicao = this.scanner.nextInt();
-            }
-        }
+        IJogador jogador= getJogadorDaVez();
+        int posicao=jogador.getMovimento(tabuleiro);
         tabuleiro.setPosicao(posicao, jogador.getTipoPosicao());
         if(this.tabuleiro.isVencedor(jogador.getTipoPosicao())){
             this.tabuleiro.printTabuleiro();
@@ -60,23 +48,24 @@ public void jogar(){
         String nome = this.scanner.nextLine();
         System.out.println("Digite o tipo de jogador 1 (X, O): ");
         ETipoPosicao tipoPosicao = ETipoPosicao.valueOf(this.scanner.nextLine().toUpperCase());
-        this.jogador1 = new Jogador(nome, tipoPosicao, false);
+        jogador1 = new Jogador(nome, tipoPosicao);
         System.out.print("Jogador 2 será o computador (s, n):  ");
         boolean isComputador= this.scanner.nextLine().equalsIgnoreCase("s");
         ETipoPosicao p2=tipoPosicao.equals(ETipoPosicao.X)?ETipoPosicao.O:ETipoPosicao.X;
-        String nomeJogador2;
         if(!isComputador){
+            String nomeJogador2;
             System.out.println("Digite o nome do jogador 2: ");
             nomeJogador2 = this.scanner.nextLine();
+            jogador2=new Jogador(nomeJogador2, tipoPosicao);
         }else{
-            nomeJogador2="Computador";
+            jogador2 = new Computador(p2);
         }
-        this.jogador2 = new Jogador(nomeJogador2, p2, isComputador);
+
     }
     private String getNomeJogadorDaVez(){
         return getJogadorDaVez().getNome();
     }
-    private Jogador getJogadorDaVez(){
+    private IJogador getJogadorDaVez(){
         return turno?jogador1:jogador2;
     }
 

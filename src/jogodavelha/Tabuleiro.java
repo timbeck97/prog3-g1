@@ -153,54 +153,20 @@ public class Tabuleiro {
         }
         System.out.println("-------------");
     }
-    private int[] getPosicao(int posicao){
-        int linha, coluna;
-        switch (posicao){
-            case 1:
-                linha = 0;
-                coluna = 0;
-                break;
-            case 2:
-                linha = 0;
-                coluna = 1;
-                break;
-            case 3:
-                linha = 0;
-                coluna = 2;
-                break;
-            case 4:
-                linha = 1;
-                coluna = 0;
-                break;
-            case 5:
-                linha = 1;
-                coluna = 1;
-                break;
-            case 6:
-                linha = 1;
-                coluna = 2;
-                break;
-            case 7:
-                linha = 2;
-                coluna=0;
-                break;
-            case 8:
-                linha=2;
-                coluna=1;
-                break;
-            case 9:
-                linha=2;
-                coluna=2;
-                break;
-            default:
-                linha = 0;
-                coluna = 0;
-                break;
-        }
-        //int linha = (numero - 1) / 3;
-        //int coluna = (numero - 1) % 3;
+    public static int[] getPosicao(int posicao){
+        int linha = (posicao - 1) / 3;
+        int coluna = (posicao - 1) % 3;
         return new int[]{linha, coluna};
     }
+    public ETipoPosicao[][] getTabuleiro() {
+        return tabuleiro;
+    }
+
+    public void setTabuleiro(ETipoPosicao[][] tabuleiro) {
+        this.tabuleiro = tabuleiro;
+    }
+
+
     @Override
     public String toString() {
         return "Tabuleiro{" +
